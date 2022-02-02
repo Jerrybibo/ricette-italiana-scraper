@@ -24,7 +24,7 @@ chrome_driver_path = getcwd() + '/' + DRIVER_PATH
 if not path.exists(chrome_driver_path):
     print('''Chrome driver was not found.
 Please go to https://chromedriver.chromium.org/downloads and download the correct driver for your OS and Chrome.
-Place the downloaded Chrome driver in the same folder as the Python file and set settings.py accordingly.
+Place the downloaded Chrome driver in the same folder as the Python file and set global variables accordingly.
 NOTE! The driver version must be equal to the current version of Google Chrome you are using!
 To check your Chrome version, go to chrome://version/ and check the top entry; it should be of format xx.x.xxxx.xx.''')
     exit(-1)
@@ -91,7 +91,7 @@ def get_recipes(category):
 
 
 def main():
-    skip_output_check = True
+    skip_output_check = False
     # Create output folder
     if path.exists(OUTPUT_ROOT):
         if skip_output_check:
