@@ -1,5 +1,5 @@
 # Based on https://github.com/Jerrybibo/webscraper/blob/master/main.py
-# Code written by Jerrybibo, 1/29/2022. © 2022
+# Code written by Jerrybibo, 2/2/2022. © 2022
 
 from os import getcwd, path, listdir, makedirs
 from shutil import rmtree
@@ -77,17 +77,30 @@ def get_recipes(category):
     for recipe_url in recipe_urls:
         soup = soupify(recipe_url)
         recipe_title = soup.find('h1', {'class': 'gz-title-recipe'}).get_text()
-        print(f"Processing {category_name} - {recipe_title}... ", end='')
-        # Magic; don't question it
-        # todo fix: title "Preparazione" is not part of <h2 class="gz-title-section">, but rather <div ...>.
-        # todo fix: eliminate some recipes' English options ("...Leggi la ricetta in inglese")
-        # todo add: ingredient list is not scraped
-        recipe_text = [list(section)
-                       for section in list(zip([i.get_text().strip() + '\n\n'
-                                                for i in soup.find_all('h2', {'class': 'gz-title-section'})],
-                                               ['\n'.join([j.get_text() for j in i.find_all('p')]) + '\n\n'
-                                                for i in soup.find_all('div', {'class': 'gz-content-recipe'})]))]
+        print(f"Processing {category_name} - {recipe_title}... ", end='', flush=True)
+        # Here be magic; don't question it
+        recipe_text = []
+        # Ingredients require special attention, as they are tagged differently in the HTML
+        ingredients_list = ['INGREDIENTI\n\n',
+                            '\n'.join(['\n'.join([j.get_text().replace('\t', '').replace('\n', ' ').strip()
+                                                  for j in i.find_all('dd', {'class': 'gz-ingredient'})]) for i in
+                                       soup.find_all('dl', {'class': 'gz-list-ingredients'})]) + '\n\n']
+        # Find the remainder of the recipe body (e.g., presentazione, etc.)
+        # Very hacky (not my proudest work), but it works.
+        recipe_text += [list(section)
+                        for section in list(zip([i.get_text()
+                                                .replace('Leggi la ricetta in inglese', '').strip() + '\n\n'
+                                                 if i.get_text().strip() != 'INGREDIENTI' else 'PREPARAZIONE\n\n'
+                                                 for i in soup.find_all('h2', {'class': 'gz-title-section'})],
+                                                ['\n'.join([j.get_text() for j in i.find_all('p')]) + '\n\n'
+                                                 for i in soup.find_all('div', {'class': 'gz-content-recipe'})]))]
+        # Put the ingredients in the correct spot in the recipe text
+        recipe_text.insert(1, ingredients_list)
+        # Add the title to the recipe text
         recipe_output = sum(recipe_text, [recipe_title + '\n\n'])
+        # Clean out any &nbsp (html non-breakable space, represented as \xa0) in text
+        recipe_output = [section.replace('\xa0', ' ') for section in recipe_output]
+        # Write to file
         with open(path.join(OUTPUT_ROOT, category_name, recipe_title) + '.txt', 'w') as recipe_file:
             recipe_file.writelines(recipe_output)
         print("Done.")
