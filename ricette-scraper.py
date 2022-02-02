@@ -2,6 +2,7 @@
 # Code written by Jerrybibo, 2/2/2022. © 2022
 
 from os import getcwd, path, listdir, makedirs
+import traceback
 from shutil import rmtree
 from concurrent.futures import ProcessPoolExecutor
 from selenium import webdriver
@@ -9,9 +10,8 @@ from selenium.webdriver.chrome.options import Options
 import bs4
 from time import time
 
-BASE_URL = "https://www.giallozafferano.it/"
-DRIVER_PATH = "chromedriver.exe"
-OUTPUT_ROOT = path.join(".", "output")
+from settings import *
+
 
 # Adding options for Selenium.
 # Headless argument allows Selenium to use the Chrome driver without opening a discrete window.
@@ -101,8 +101,27 @@ def get_recipes(category):
         # Clean out any &nbsp (html non-breakable space, represented as \xa0) in text
         recipe_output = [section.replace('\xa0', ' ') for section in recipe_output]
         # Write to file
-        with open(path.join(OUTPUT_ROOT, category_name, recipe_title) + '.txt', 'w') as recipe_file:
-            recipe_file.writelines(recipe_output)
+        try:
+            with open(path.join(OUTPUT_ROOT, category_name, recipe_title) + '.txt', 'w') as recipe_file:
+                recipe_file.writelines(recipe_output)
+        except UnicodeEncodeError as e:
+            print("Error!")
+            print(f'Unicode Encoding Error: {e}')
+            print(f'Recipe URL: {recipe_url}')
+            print(f'Traceback: {traceback.format_exc()}')
+            print('Recipe output:')
+            for i in recipe_output:
+                print(i)
+            continue
+        except BaseException as e:
+            print("Error!")
+            print(f'Unexpected Error: {e}')
+            print(f'Recipe URL: {recipe_url}')
+            print(f'Traceback: {traceback.format_exc()}')
+            print('Recipe output:')
+            for i in recipe_output:
+                print(i)
+            continue
         print("Done.")
 
 
