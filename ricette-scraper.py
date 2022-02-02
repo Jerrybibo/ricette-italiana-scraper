@@ -70,7 +70,7 @@ def get_recipes(category):
         page_url = '/'.join(page_url)
         soup = soupify(page_url)
         recipe_urls += [i.find('a').get('href') for i in soup.find_all('article', {'class': 'gz-card'})]
-        print('*', end='')
+        print('*', end='', flush=True)
     print(f' Completed. ({len(recipe_urls)} recipes)')
 
     # For each URL, grab all body paragraphs and their associated titles, then output to file
@@ -79,6 +79,9 @@ def get_recipes(category):
         recipe_title = soup.find('h1', {'class': 'gz-title-recipe'}).get_text()
         print(f"Processing {category_name} - {recipe_title}... ", end='')
         # Magic; don't question it
+        # todo fix: title "Preparazione" is not part of <h2 class="gz-title-section">, but rather <div ...>.
+        # todo fix: eliminate some recipes' English options ("...Leggi la ricetta in inglese")
+        # todo add: ingredient list is not scraped
         recipe_text = [list(section)
                        for section in list(zip([i.get_text().strip() + '\n\n'
                                                 for i in soup.find_all('h2', {'class': 'gz-title-section'})],
