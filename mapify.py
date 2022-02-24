@@ -13,7 +13,7 @@ MAP_FILENAME = 'mapify_img.png'
 # le regioni d'italia
 # Includes cities and smaller region denominations
 # Comment this line out if reading from locations.csv
-locations += ['Molise', 'Puglia', 'Veneto', 'Emilia Romagna', 'Milano', 'L\'Aquila', 'Campania']  # etc.
+locations += ['ligure', 'genovese', 'genovesi', 'romagna']  # etc.
 
 # Read from file if locations is empty
 if not locations:
@@ -31,8 +31,15 @@ locations = dict(zip(range(0, len(locations)), locations))
 gmaps = googlemaps.Client(key=environ['GOOGLE_MAPS_API_KEY'])
 
 # Geocode the locations
-locations_geocode = {index: gmaps.geocode(location, components={'country': 'IT'})[0]['geometry']['location']
-                     for index, location in locations.items()}
+locations_geocode = dict()
+for index, location in locations.items():
+    geocode_obj = gmaps.geocode(location, components={'country': 'IT'})
+    if geocode_obj:
+        print(geocode_obj)
+        # exit(0)
+        # if geocode_obj[0][]
+        coordinate = geocode_obj[0]['geometry']['location']
+        locations_geocode[index] = coordinate
 
 # Convert the resulting coordinates to be easy to parse
 coordinates = {index: (coord['lat'], coord['lng']) for index, coord in locations_geocode.items()}
@@ -41,6 +48,6 @@ coordinates = {index: (coord['lat'], coord['lng']) for index, coord in locations
 coord_markers = googlemaps.maps.StaticMapMarker(locations=[coord for _, coord in locations_geocode.items()])
 
 with open(MAP_FILENAME, 'wb') as map_file:
-    for chunk in gmaps.static_map(size=MAP_DIMENSIONS, region='IT', markers=coord_markers):
+    for chunk in gmaps.static_map(size=MAP_DIMENSIONS, region='Italy', markers=coord_markers):
         if chunk:
             map_file.write(chunk)
