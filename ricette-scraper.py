@@ -104,6 +104,9 @@ def get_recipes(category):
         try:
             with open(path.join(OUTPUT_ROOT, category_name, recipe_title) + '.txt', 'w') as recipe_file:
                 recipe_file.writelines(recipe_output)
+            if WRITE_INGREDIENTS:
+                with open(path.join(OUTPUT_ROOT, category_name, recipe_title) + '.ingredients', 'w') as ingrd_file:
+                    ingrd_file.writelines(ingredients_list[1:])
         except UnicodeEncodeError as e:
             print("Error!")
             print(f'Unicode Encoding Error: {e}')

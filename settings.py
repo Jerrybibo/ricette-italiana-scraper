@@ -10,3 +10,6 @@ DRIVER_PATH = "chromedriver.exe"
 
 # Output directory.
 OUTPUT_ROOT = path.join(".", "output")
+
+# Whether to write ingredients into a separate file or not.
+WRITE_INGREDIENTS = True
