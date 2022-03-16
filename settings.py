@@ -6,7 +6,7 @@ BASE_URL = "https://www.giallozafferano.it/"
 
 # The driver path.
 # Changes needed if OS is not Windows.
-DRIVER_PATH = "chromedriver.exe"
+DRIVER_PATH = "chromedriver"
 
 # Output directory.
 OUTPUT_ROOT = path.join(".", "output")

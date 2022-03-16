@@ -7,9 +7,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import bs4
 from time import time
+from settings import *
 
 BASE_URL = "https://www.fragolosi.it/glossario/"
-DRIVER_PATH = "chromedriver.exe"
 
 # Adding options for Selenium.
 # Headless argument allows Selenium to use the Chrome driver without opening a discrete window.
