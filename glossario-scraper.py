@@ -1,15 +1,15 @@
 # Based on https://github.com/Jerrybibo/webscraper/blob/master/main.py
 # Code written by Jerrybibo, 1/26/2022. © 2022
-
-from os import getcwd, path, listdir
-from concurrent.futures import ProcessPoolExecutor
+import csv
+from os import getcwd
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import bs4
-from time import time
 from settings import *
 
 BASE_URL = "https://www.fragolosi.it/glossario/"
+
+OUTPUT_FILE = 'culinary_terms.csv'
 
 # Adding options for Selenium.
 # Headless argument allows Selenium to use the Chrome driver without opening a discrete window.
@@ -31,13 +31,25 @@ driver = webdriver.Chrome(options=opts, executable_path=chrome_driver_path)
 
 
 def get_definition(term):
-    print('Processing', term.get('title'))
     driver.get(term.get('href'))
     soup = bs4.BeautifulSoup(driver.page_source, features='html.parser')
-    return soup.find('div', {'class': 'col-md-9'}).find('p').get_text()
+    result = soup.find('div', {'class': 'col-md-9'}).find('p').get_text() + ' '
+    result += ' '.join([i.get_text() for i in soup.find('div', {'class': 'col-md-9'}).find_all('li')])
+    return result.strip()
 
 
 def main():
+    # Check if previously output file exists, and confirm that the user wants to overwrite
+    if path.exists(OUTPUT_FILE):
+        replace_output = input(f'Output file {OUTPUT_FILE} already exists. Overwrite? (y/n): ').lower()
+        while not replace_output.startswith(('y', 'n')):
+            replace_output = input('Please enter y or n (y/n): ').lower()
+        if replace_output.startswith('n'):
+            print("Exiting.")
+            exit(0)
+        elif replace_output.startswith('y'):
+            print(f'Previous output file will be overwritten.')
+
     # Obtain rendered HTML data
     driver.get(BASE_URL)
 
@@ -49,25 +61,16 @@ def main():
     glossary_list = soup.find('ul', {'class': 'listglossaryid'})
     terms = glossary_list.find_all('a')
 
-    term_names = [i.get('title') for i in terms]
+    # Extract all the terms and their definitions and save to a 2d-list
+    definitions = []
+    for index, term in enumerate(terms):
+        print(f'Processing {index + 1}/{len(terms)}: {term.get("title")}')
+        definitions.append([index + 1, term.get('title'), get_definition(term)])
 
-    # Runtime testing (list comp vs map)
-    start_time = time()
-
-    # # of terms that starts with 'A': 218
-    # map() took ~121.17 seconds to process all terms starting with 'A' on Jerry's machine + Internet from Emory (run 1)
-    # List comprehension took ~49.98 seconds for same task... suspicious of caching (run 2)
-
-    # # of terms that starts with 'B': 143
-    # List comprehension took ~113.81 seconds (run 1)
-    # map() took ~33.41 seconds. As suspected, caching speeds up the process by a large amount. (run 2)
-
-    # Both aren't good enough! Will be looking into multithreading + other means...
-    # Expected run time as of now on a normal computer: Approximately 1 hour for all terms
-    definitions = zip(term_names, list(map(get_definition, terms)))
-
-    print("Took", time() - start_time, "seconds")
-    print(definitions)
+    # Now we have the terms, save them to a CSV file
+    with open(OUTPUT_FILE, 'w', newline='') as output_file:
+        csv_writer = csv.writer(output_file)
+        csv_writer.writerows(definitions)
 
 
 main()

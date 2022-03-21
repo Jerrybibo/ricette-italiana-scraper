@@ -1,15 +1,12 @@
 # Based on https://github.com/Jerrybibo/webscraper/blob/master/main.py
 # Code written by Jerrybibo, 2/2/2022. © 2022
 
-from os import getcwd, path, listdir, makedirs
+from os import getcwd, makedirs
 import traceback
 from shutil import rmtree
-from concurrent.futures import ProcessPoolExecutor
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import bs4
-from time import time
-
 from settings import *
 
 
