@@ -1,6 +1,8 @@
 import csv
 import os
 
+TITLE_ROW = ['id', 'name']
+
 # Directory to analyze
 directory = os.path.join('.', 'output', 'Antipasti')
 
@@ -34,4 +36,5 @@ for file_index, file in files_to_analyze.items():
 ingredient_list = [[i + 1, ingredient_name] for i, ingredient_name in enumerate(sorted(list(ingredient_set)))]
 with open('ingredients.csv', 'w', newline='') as ingredients_file:
     csv_writer = csv.writer(ingredients_file)
+    csv_writer.writerow(TITLE_ROW)
     csv_writer.writerows(ingredient_list)

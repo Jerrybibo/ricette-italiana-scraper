@@ -1,6 +1,6 @@
 Roadmap for Spring 2022
 ----
-**Project commit history are stored [here](https://github.com/Jerrybibo/ricette-italiana-scraper/commits/master).**
+**Project commit history is stored [here](https://github.com/Jerrybibo/ricette-italiana-scraper/commits/master).**
 
 Completed so far:
 * Core tools to extract from recipes:
