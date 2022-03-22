@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Ricette-Italiana Scraper Utility</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>10</y>
+      <width>321</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>24</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_Home">
+    <property name="title">
+     <string>&amp;Home</string>
+    </property>
+    <addaction name="actionWelcome_Page"/>
+    <addaction name="actionDocumentation"/>
+    <addaction name="actionCredits"/>
+   </widget>
+   <widget class="QMenu" name="menuExtract">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionExtract_E"/>
+    <addaction name="actionExtract"/>
+   </widget>
+   <addaction name="menu_Home"/>
+   <addaction name="menuExtract"/>
+  </widget>
+  <action name="actionWelcome_Page">
+   <property name="text">
+    <string>Welcome Page</string>
+   </property>
+  </action>
+  <action name="actionDocumentation">
+   <property name="text">
+    <string>Documentation</string>
+   </property>
+  </action>
+  <action name="actionCredits">
+   <property name="text">
+    <string>Credits</string>
+   </property>
+  </action>
+  <action name="actionExtract_E">
+   <property name="text">
+    <string>Scrape...</string>
+   </property>
+  </action>
+  <action name="actionExtract">
+   <property name="text">
+    <string>Extract...</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
