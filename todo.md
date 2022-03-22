@@ -12,7 +12,7 @@ Completed so far:
 
 | Week      | Target                                                                                                                                                                                                                           |
 |-----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 3/13-3/19 | Complete README.md for available scripts<br/>Complete `ingredient-extractor.py`<br/><del>Enable output for `glossario-scraper.py`</del>                                                                                          |
+| 3/13-3/19 | Complete README.md for available scripts<br/><del>Complete `ingredient-extractor.py`</del><br/><del>Enable output for `glossario-scraper.py`</del>                                                                               |
 | 3/20-3/26 | <del>Initialize SQLite DB</del><br/><del>Compose schema for available data (correlate recipe, location, ingredient)</del><br/>Run scraping routine on full dataset<br/><del>Begin work on basic initialization SQL scripts</del> |
 | 3/27-4/2  | Continued work on SQLite DB<br/>Re-document all files and create interactive guide/tool for usage<br/>Refactor `settings.py`                                                                                                     |
 | 4/3-4/9   | Continued work on SQLite DB<br/>Compose test queries for data retrieval<br/>Optionally: Redo `pinpoint` and `mapify` routines to use HTML                                                                                        |
