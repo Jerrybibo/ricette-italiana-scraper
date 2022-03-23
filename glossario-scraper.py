@@ -68,7 +68,7 @@ def main():
         definitions.append([index + 1, term.get('title'), get_definition(term)])
 
     # Now we have the terms, save them to a CSV file
-    with open(OUTPUT_FILE, 'w', newline='') as output_file:
+    with open(OUTPUT_FILE, 'w', newline='', encoding='utf-16') as output_file:
         csv_writer = csv.writer(output_file)
         csv_writer.writerows(definitions)
 
