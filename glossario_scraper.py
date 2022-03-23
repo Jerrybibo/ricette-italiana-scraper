@@ -70,6 +70,7 @@ def main():
     # Now we have the terms, save them to a CSV file
     with open(OUTPUT_FILE, 'w', newline='', encoding='utf-16') as output_file:
         csv_writer = csv.writer(output_file)
+        csv_writer.writerow(['id', 'name', 'description'])
         csv_writer.writerows(definitions)
 
 

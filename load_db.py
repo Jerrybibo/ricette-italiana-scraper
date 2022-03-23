@@ -2,7 +2,7 @@ import sqlite3
 import os
 import csv
 
-DB_FILE = os.path.join('.', 'sqlite', 'ricette-italiana.db')
+DB_FILE = os.path.join('.', 'sqlite', 'ricette_italiana.db')
 
 
 def connect_db(db):
@@ -11,6 +11,14 @@ def connect_db(db):
 
 
 def load_csv_to_table(input_csv, table, columns, clear_table=False):
+    """
+    Load a csv file into a SQLite table.
+    CSV column names must be the same as the table columns.
+    :param input_csv: The input csv file name
+    :param table: The table name
+    :param columns: Column names
+    :param clear_table: Whether to clear the table or not before importing data.
+    """
     con, cur = connect_db(DB_FILE)
     if clear_table:
         cur.execute(f'DELETE FROM {table}')
@@ -25,6 +33,7 @@ def load_csv_to_table(input_csv, table, columns, clear_table=False):
 
 def main():
     load_csv_to_table('ingredients.csv', 'ingredients', ['id', 'name'], True)
+    load_csv_to_table('culinary_terms.csv', 'preparations', ['id', 'name', 'description'], True)
 
 
 if __name__ == '__main__':

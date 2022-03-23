@@ -99,10 +99,12 @@ def get_recipes(category):
         recipe_output = [section.replace('\xa0', ' ') for section in recipe_output]
         # Write to file
         try:
-            with open(path.join(OUTPUT_ROOT, category_name, recipe_title) + '.txt', 'w') as recipe_file:
+            with open(path.join(OUTPUT_ROOT, category_name, recipe_title) + '.txt', 'w', encoding='utf-16')\
+                    as recipe_file:
                 recipe_file.writelines(recipe_output)
             if WRITE_INGREDIENTS:
-                with open(path.join(OUTPUT_ROOT, category_name, recipe_title) + '.ingredients', 'w') as ingrd_file:
+                with open(path.join(OUTPUT_ROOT, category_name, recipe_title) + '.ingredients', 'w', encoding='utf-16')\
+                        as ingrd_file:
                     ingrd_file.writelines(ingredients_list[1:])
         except UnicodeEncodeError as e:
             print("Error!")
@@ -151,11 +153,16 @@ def main():
     soup = soupify(BASE_URL)
 
     # Obtain all available categories
-    categories = get_categories(soup)
+    # categories = get_categories(soup)
+    # It seems that only the first four categories need to be scraped
+    categories = [('Antipasti', 'https://www.giallozafferano.it/ricette-cat/Antipasti/'),
+                  ('Primi', 'https://www.giallozafferano.it/ricette-cat/Primi/'),
+                  ('Secondi', 'https://www.giallozafferano.it/ricette-cat/Secondi/'),
+                  ('Dolci', 'https://www.giallozafferano.it/ricette-cat/Dolci/')]
 
-    for category in categories:
+    for index, category in enumerate(categories):
+        print(f"Processing category {index + 1} of {len(categories)}")
         get_recipes(category)
-        return
 
 
 main()
