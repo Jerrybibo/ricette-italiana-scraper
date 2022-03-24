@@ -63,9 +63,14 @@ def main():
 
     # Extract all the terms and their definitions and save to a 2d-list
     definitions = []
+    definition_set = set()
     for index, term in enumerate(terms):
         print(f'Processing {index + 1}/{len(terms)}: {term.get("title")}')
-        definitions.append([index + 1, term.get('title'), get_definition(term)])
+        if term.get('title') not in definition_set:
+            definition_set.add(term.get('title'))
+            definitions.append([index + 1, term.get('title'), get_definition(term)])
+        else:
+            print(f'{term.get("title")} already exists in culinary terms. Skipping.')
 
     # Now we have the terms, save them to a CSV file
     with open(OUTPUT_FILE, 'w', newline='', encoding='utf-16') as output_file:
