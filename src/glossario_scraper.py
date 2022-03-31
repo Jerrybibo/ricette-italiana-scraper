@@ -7,10 +7,6 @@ from selenium.webdriver.chrome.options import Options
 import bs4
 from settings import *
 
-BASE_URL = "https://www.fragolosi.it/glossario/"
-
-OUTPUT_FILE = 'culinary_terms.csv'
-
 # Adding options for Selenium.
 # Headless argument allows Selenium to use the Chrome driver without opening a discrete window.
 opts = Options()
@@ -40,8 +36,8 @@ def get_definition(term):
 
 def main():
     # Check if previously output file exists, and confirm that the user wants to overwrite
-    if path.exists(OUTPUT_FILE):
-        replace_output = input(f'Output file {OUTPUT_FILE} already exists. Overwrite? (y/n): ').lower()
+    if path.exists(GLOSSARY_OUTPUT):
+        replace_output = input(f'Output file {GLOSSARY_OUTPUT} already exists. Overwrite? (y/n): ').lower()
         while not replace_output.startswith(('y', 'n')):
             replace_output = input('Please enter y or n (y/n): ').lower()
         if replace_output.startswith('n'):
@@ -51,7 +47,7 @@ def main():
             print(f'Previous output file will be overwritten.')
 
     # Obtain rendered HTML data
-    driver.get(BASE_URL)
+    driver.get(GLOSSARY_BASE_URL)
 
     # Begin parsing using BS4
     soup_file = driver.page_source
@@ -73,9 +69,9 @@ def main():
             print(f'{term.get("title")} already exists in culinary terms. Skipping.')
 
     # Now we have the terms, save them to a CSV file
-    with open(OUTPUT_FILE, 'w', newline='', encoding='utf-16') as output_file:
+    with open(GLOSSARY_OUTPUT, 'w', newline='', encoding='utf-16') as output_file:
         csv_writer = csv.writer(output_file)
-        csv_writer.writerow(['id', 'name', 'description'])
+        csv_writer.writerow(GLOSSARY_TITLE_ROW)
         csv_writer.writerows(definitions)
 
 

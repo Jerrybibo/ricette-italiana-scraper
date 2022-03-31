@@ -1,14 +1,9 @@
 import googlemaps
 import csv
 from os import environ
+from settings import *
 
 locations = []
-
-# Specify output map dimensions
-MAP_DIMENSIONS = (1920, 1080)
-
-# Specify output map name
-MAP_FILENAME = 'mapify_img.png'
 
 # le regioni d'italia
 # Includes cities and smaller region denominations
@@ -17,7 +12,7 @@ locations += ['ligure', 'genovese', 'genovesi', 'romagna']  # etc.
 
 # Read from file if locations is empty
 if not locations:
-    with open('locations.csv', 'r') as locations_csv:
+    with open('../output/locations.csv', 'r') as locations_csv:
         csv_reader = csv.reader(locations_csv)
         header_row = next(csv_reader)
         for row in csv_reader:
@@ -28,7 +23,7 @@ if not locations:
 locations = dict(zip(range(0, len(locations)), locations))
 
 # Save your Google Maps API key into an environment variable for security purposes
-gmaps = googlemaps.Client(key=environ['GOOGLE_MAPS_API_KEY'])
+gmaps = googlemaps.Client(key=GMAPS_CREDENTIALS)
 
 # Geocode the locations
 locations_geocode = dict()

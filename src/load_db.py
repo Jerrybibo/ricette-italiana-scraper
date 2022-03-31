@@ -1,8 +1,7 @@
 import sqlite3
 import os
 import csv
-
-DB_FILE = os.path.join('.', 'sqlite', 'ricette_italiana.db')
+from settings import *
 
 
 def connect_db(db):

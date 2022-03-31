@@ -1,13 +1,12 @@
 import csv
 import os
-
-TITLE_ROW = ['id', 'name']
+from settings import *
 
 # Directories to analyze
-directories = [os.path.join('.', 'output_backups', 'Antipasti'),
-               os.path.join('.', 'output_backups', 'Primi'),
-               os.path.join('.', 'output_backups', 'Secondi'),
-               os.path.join('.', 'output_backups', 'Dolci')]
+directories = [os.path.join('..', 'output', 'Antipasti'),
+               os.path.join('..', 'output', 'Primi'),
+               os.path.join('..', 'output', 'Secondi'),
+               os.path.join('..', 'output', 'Dolci')]
 
 files_to_analyze = dict()
 terms = dict()
@@ -34,7 +33,7 @@ for file_index, file in files_to_analyze.items():
 
 # Write the set of ingredients to a file
 ingredient_list = [[i + 1, ingredient_name] for i, ingredient_name in enumerate(sorted(list(ingredient_set)))]
-with open('ingredients.csv', 'w', newline='') as ingredients_file:
+with open(INGREDIENTS_OUTPUT, 'w', newline='') as ingredients_file:
     csv_writer = csv.writer(ingredients_file)
-    csv_writer.writerow(TITLE_ROW)
+    csv_writer.writerow(INGREDIENTS_TITLE_ROW)
     csv_writer.writerows(ingredient_list)

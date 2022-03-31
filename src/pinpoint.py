@@ -2,23 +2,24 @@ from google.cloud import language_v1
 from google.oauth2 import service_account
 import csv
 import os
+from settings import *
 
 # Set up Google Cloud natural language client
 # Save application credentials to environment variable
-credentials = service_account.Credentials.from_service_account_file(os.environ['GOOGLE_APPLICATION_CREDENTIALS'])
+credentials = service_account.Credentials.from_service_account_file(GCLOUD_CREDENTIALS)
 client = language_v1.LanguageServiceClient(credentials=credentials)
 
 # Directory to analyze
-directory = '.\\output\\Antipasti'
+directory = os.path.join('..', 'output', 'Antipasti')
 
 # Remove location entities of low relative importance in text
 SALIENCE_THRESHOLD = 0.001
 
 # Locations filename (contains actual location data)
-output_filename = 'locations.csv'
+output_filename = os.path.join('..', 'output', 'locations.csv')
 
 # Catalog filename (contains the input txt file names; used for lookup)
-catalog_filename = 'file_indices.csv'
+catalog_filename = os.path.join('..', 'output', 'file_indices.csv')
 
 files_to_analyze = dict()
 

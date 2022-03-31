@@ -1,7 +1,7 @@
 # Based on https://github.com/Jerrybibo/webscraper/blob/master/main.py
 # Code written by Jerrybibo, 2/2/2022. © 2022
 
-from os import getcwd, makedirs
+from os import makedirs
 import traceback
 from shutil import rmtree
 from selenium import webdriver
@@ -9,16 +9,12 @@ from selenium.webdriver.chrome.options import Options
 import bs4
 from settings import *
 
-
 # Adding options for Selenium.
 # Headless argument allows Selenium to use the Chrome driver without opening a discrete window.
 opts = Options()
 opts.add_argument(' --headless')
 
-# Check for Chrome driver
-chrome_driver_path = getcwd() + '/' + DRIVER_PATH
-
-if not path.exists(chrome_driver_path):
+if not path.exists(DRIVER_PATH):
     print('''Chrome driver was not found.
 Please go to https://chromedriver.chromium.org/downloads and download the correct driver for your OS and Chrome.
 Place the downloaded Chrome driver in the same folder as the Python file and set global variables accordingly.
@@ -26,7 +22,7 @@ NOTE! The driver version must be equal to the current version of Google Chrome y
 To check your Chrome version, go to chrome://version/ and check the top entry; it should be of format xx.x.xxxx.xx.''')
     exit(-1)
 
-driver = webdriver.Chrome(options=opts, executable_path=chrome_driver_path)
+driver = webdriver.Chrome(options=opts, executable_path=DRIVER_PATH)
 
 
 def soupify(url):
@@ -128,12 +124,11 @@ def get_recipes(category):
 
 
 def main():
-    skip_output_check = False
     # Create output folder
     if path.exists(OUTPUT_ROOT):
-        if skip_output_check:
+        if SKIP_OUTPUT_CHECK:
             replace_output = 'y'
-            print(f'Output directory {OUTPUT_ROOT} already exists, but skip_output_check is True. Skipping user input')
+            print(f'Output directory {OUTPUT_ROOT} already exists, but SKIP_OUTPUT_CHECK is True. Skipping user input')
         else:
             replace_output = input(f'Output directory {OUTPUT_ROOT} already exists. Replace? (y/n): ').lower()
         while not replace_output.startswith(('y', 'n')):
@@ -149,19 +144,9 @@ def main():
         print(f'Created output directory {OUTPUT_ROOT}.')
         makedirs(OUTPUT_ROOT)
 
-    # Obtain rendered HTML and parse using BS4
-    soup = soupify(BASE_URL)
-
-    # Obtain all available categories
-    # categories = get_categories(soup)
-    # It seems that only the first four categories need to be scraped
-    categories = [('Antipasti', 'https://www.giallozafferano.it/ricette-cat/Antipasti/'),
-                  ('Primi', 'https://www.giallozafferano.it/ricette-cat/Primi/'),
-                  ('Secondi', 'https://www.giallozafferano.it/ricette-cat/Secondi/'),
-                  ('Dolci', 'https://www.giallozafferano.it/ricette-cat/Dolci/')]
-
-    for index, category in enumerate(categories):
-        print(f"Processing category {index + 1} of {len(categories)}")
+    # Obtain recipes in all available categories
+    for index, category in enumerate(RECIPE_CATEGORIES):
+        print(f"Processing category {index + 1} of {len(RECIPE_CATEGORIES)}")
         get_recipes(category)
 
 
