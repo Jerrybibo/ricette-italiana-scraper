@@ -17,7 +17,6 @@ GCLOUD_CREDENTIALS = environ['GOOGLE_APPLICATION_CREDENTIALS']
 # Google Maps credentials path.
 GMAPS_CREDENTIALS = environ['GOOGLE_MAPS_API_KEY']
 
-
 # The driver path.
 # Changes needed if the Chrome version does not match driver, or differing OS.
 DRIVER_PATH = path.join("..", "driver", "chromedriver.exe")
@@ -43,3 +42,22 @@ MAP_DIMENSIONS = (1920, 1080)
 
 # Whether to write ingredients into a separate file or not.
 WRITE_INGREDIENTS = True
+
+# MOTD for the main routine.
+MOTD = """Welcome to the Italian recipe scraper interactive utility!
+Type 'help' to get started.
+Type 'exit' to quit.
+"""
+
+HELP_MSG = """The following commands are available:
+   help - Displays this message.
+      help <command> - Displays help for and details of a specific command.
+   settings - Displays the current settings.
+   scrape - Obtains data from the specified website.
+      scrape recipe[s] - Scrapes recipes.
+      scrape <glossary|ingredient[s]> - Scrapes cooking terms.
+   extract - Extracts ingredients from scraped recipe data. Needs both scrape routines to be run first.
+   pinpoint - Obtains coordinates for the specified recipe data.
+   mapify - Creates a map of the specified recipe data.
+   exit - Exits the program.
+   """
