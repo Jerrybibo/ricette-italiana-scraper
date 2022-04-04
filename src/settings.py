@@ -60,4 +60,4 @@ HELP_MSG = """The following commands are available:
    pinpoint - Obtains coordinates for the specified recipe data.
    mapify - Creates a map of the specified recipe data.
    exit - Exits the program.
-   """
+"""
