@@ -1,6 +1,9 @@
 # Settings file.
 from os import path, environ
 
+
+VERSION = '0.01a'
+
 # URLs to scrape from. Probably don't want to change this.
 RECIPE_BASE_URL = "https://www.giallozafferano.it/"
 GLOSSARY_BASE_URL = "https://www.fragolosi.it/glossario/"
@@ -44,7 +47,7 @@ MAP_DIMENSIONS = (1920, 1080)
 WRITE_INGREDIENTS = True
 
 # MOTD for the main routine.
-MOTD = """Welcome to the Italian recipe scraper interactive utility!
+MOTD = f"""Welcome to the Italian recipe scraper interactive utility! {VERSION}
 Type 'help' to get started.
 Type 'exit' to quit.
 """
