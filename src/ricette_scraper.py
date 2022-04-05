@@ -7,6 +7,7 @@ from shutil import rmtree
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import bs4
+import argparse
 from settings import *
 
 # Adding options for Selenium.
@@ -128,7 +129,8 @@ def main():
     if path.exists(OUTPUT_ROOT):
         if SKIP_OUTPUT_CHECK:
             replace_output = 'y'
-            print(f'Output directory {OUTPUT_ROOT} already exists, but SKIP_OUTPUT_CHECK is True. Skipping user input')
+            print(f'Output directory {OUTPUT_ROOT} already exists, but SKIP_OUTPUT_CHECK option is True. '
+                  f'Skipping user input')
         else:
             replace_output = input(f'Output directory {OUTPUT_ROOT} already exists. Replace? (y/n): ').lower()
         while not replace_output.startswith(('y', 'n')):
@@ -150,4 +152,16 @@ def main():
         get_recipes(category)
 
 
-main()
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description='''Scrape recipes from specified recipes website.
+    The script may not be easily adapted to other websites aside from the default; take care when modifying the URL.''')
+    parser.add_argument('-s', '--skip-output-check', action='store_true',
+                        help='Skip checking if output directory already exists. WARNING: This may overwrite files.',
+                        default=False)
+    parser.add_argument('-u', '--url', type=str, help='URL of the website to scrape from.', default=RECIPE_BASE_URL)
+    parser.add_argument('-o', '--output_root', type=str, help='Output directory for recipes.', default=OUTPUT_ROOT)
+    args = parser.parse_args()
+    SKIP_OUTPUT_CHECK = args.skip_output_check
+    RECIPE_BASE_URL = args.url
+    OUTPUT_ROOT = args.output_root
+    main()
