@@ -31,8 +31,9 @@ def load_csv_to_table(input_csv, table, columns, clear_table=False, encoding='ut
 
 
 def main():
-    load_csv_to_table('ingredients.csv', 'ingredients', ['id', 'name'], True, 'cp1252')
-    load_csv_to_table('culinary_terms.csv', 'preparations', ['id', 'name', 'description'], True, 'utf-16')
+    load_csv_to_table('ingredients.csv', 'ingredients', ['id', 'name'], True, 'utf-16')
+    load_csv_to_table('culinary_terms.csv', 'preparations', ['id', 'term', 'definition'], True, 'utf-16')
+    load_csv_to_table('recipe_ingredients.csv', 'recipe_ingredients', ['ingredient_id', 'recipe'], True, 'utf-8')
 
 
 if __name__ == '__main__':

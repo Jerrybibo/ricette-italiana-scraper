@@ -24,11 +24,10 @@ CREATE TABLE ingredients (
 
 CREATE TABLE recipe_ingredients (
     ingredient_id INTEGER,
-    recipe_id INTEGER,
-    amount TEXT,
-    PRIMARY KEY (ingredient_id, recipe_id),
+    recipe TEXT,
+    PRIMARY KEY (ingredient_id, recipe),
     FOREIGN KEY (ingredient_id) REFERENCES ingredients(id),
-    FOREIGN KEY (recipe_id) REFERENCES recipes(id)
+    FOREIGN KEY (recipe) REFERENCES recipes(file_name)
 );
 
 CREATE TABLE preparations (
