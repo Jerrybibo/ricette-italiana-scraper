@@ -27,13 +27,13 @@ for file_index, file in files_to_analyze.items():
         full_ingredients_list = [[j.strip() for j in i.strip().split('  ') if j] for i in ingredients if i.strip()]
         for ingredient in full_ingredients_list:
             ingredient_set.add(ingredient[0])
-        with open(os.path.splitext(file)[0] + '.csv', 'w', newline='') as output_csv:
+        with open(os.path.splitext(file)[0] + '.csv', 'w', encoding='utf-16', newline='') as output_csv:
             csv_writer = csv.writer(output_csv)
             csv_writer.writerows(full_ingredients_list)
 
 # Write the set of ingredients to a file
 ingredient_list = [[i + 1, ingredient_name] for i, ingredient_name in enumerate(sorted(list(ingredient_set)))]
-with open(INGREDIENTS_OUTPUT, 'w', newline='') as ingredients_file:
+with open(INGREDIENTS_OUTPUT, 'w', encoding='utf-16', newline='') as ingredients_file:
     csv_writer = csv.writer(ingredients_file)
     csv_writer.writerow(INGREDIENTS_TITLE_ROW)
     csv_writer.writerows(ingredient_list)

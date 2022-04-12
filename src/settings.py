@@ -30,13 +30,15 @@ OUTPUT_ROOT = path.join("..", "output")
 # Output file names.
 GLOSSARY_OUTPUT = path.join(OUTPUT_ROOT, "culinary_terms.csv")
 INGREDIENTS_OUTPUT = path.join(OUTPUT_ROOT, "ingredients.csv")
+RECIPE_INGREDIENTS_OUTPUT = path.join(OUTPUT_ROOT, "recipe_ingredients.csv")
 
 # Directory to the SQLite database.
 DB_FILE = path.join('..', 'sqlite', 'ricette_italiana.db')
 
 # Title rows for CSV files.
-GLOSSARY_TITLE_ROW = ['id', 'name', 'description']
+GLOSSARY_TITLE_ROW = ['id', 'term', 'definition']
 INGREDIENTS_TITLE_ROW = ['id', 'name']
+RECIPE_INGREDIENTS_TITLE_ROW = ['ingredient_id', 'recipe']
 
 # Specify output map name for mapify routine
 MAP_FILENAME = 'mapify_img.png'
